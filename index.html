@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#183d36">
+  <title>MedLingua — медицинская латынь</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="hero">
+    <div class="brand-mark">✚</div>
+    <div>
+      <p class="eyebrow">ТВОЯ ЛАТЫНЬ. ТВОИ ПРАВИЛА.</p>
+      <h1>MedLingua</h1>
+      <p class="subtitle">Тренажёр медицинской латыни</p>
+    </div>
+  </header>
+
+  <main class="app-shell">
+    <section class="stats" aria-label="Статистика">
+      <article class="stat-card"><span>Слов в словаре</span><strong id="wordCount">0</strong></article>
+      <article class="stat-card"><span>Выучено</span><strong id="knownCount">0</strong></article>
+      <article class="stat-card"><span>Прогресс</span><strong id="progress">0%</strong></article>
+    </section>
+
+    <nav class="tabs" aria-label="Разделы приложения">
+      <button class="tab active" data-view="cards">Карточки</button>
+      <button class="tab" data-view="quiz">Тест</button>
+      <button class="tab" data-view="dictionary">Словарь</button>
+      <button class="tab" data-view="import">Импорт</button>
+    </nav>
+
+    <section class="view active" id="view-cards">
+      <div class="section-heading">
+        <div><p class="eyebrow">ПОВТОРЕНИЕ</p><h2>Карточки</h2></div>
+        <span class="counter" id="cardCounter">0 / 0</span>
+      </div>
+      <div class="direction-toggle">
+        <button class="choice active" data-direction="la">Латынь → русский</button>
+        <button class="choice" data-direction="ru">Русский → латынь</button>
+      </div>
+      <div class="flashcard" id="flashcard">
+        <span class="card-label" id="cardLabel">ЛАТИНСКИЙ ТЕРМИН</span>
+        <h3 id="cardPrompt">Добавь первые слова</h3>
+        <p id="cardAnswer" class="answer hidden"></p>
+        <button id="revealBtn" class="button primary">Показать перевод</button>
+      </div>
+      <div class="button-row">
+        <button id="prevCard" class="button secondary">← Назад</button>
+        <button id="nextCard" class="button secondary">Следующее →</button>
+      </div>
+      <button id="knownBtn" class="button success full">✓ Знаю это слово</button>
+      <p class="hint">Сначала вспомни перевод самостоятельно, затем открой ответ.</p>
+    </section>
+
+    <section class="view" id="view-quiz">
+      <div class="section-heading"><div><p class="eyebrow">ПРОВЕРЬ СЕБЯ</p><h2>Мини-тест</h2></div></div>
+      <div class="direction-toggle">
+        <button class="choice active" data-quiz-direction="la">Латынь → русский</button>
+        <button class="choice" data-quiz-direction="ru">Русский → латынь</button>
+      </div>
+      <div class="quiz-box">
+        <span class="card-label">ПЕРЕВЕДИ СЛОВО</span>
+        <h3 id="quizPrompt">Добавь слова, чтобы начать</h3>
+        <form id="quizForm">
+          <label class="sr-only" for="quizInput">Твой ответ</label>
+          <input id="quizInput" autocomplete="off" placeholder="Введи ответ…" required>
+          <button class="button primary full" type="submit">Проверить</button>
+        </form>
+        <p id="quizFeedback" role="status"></p>
+        <div class="quiz-footer"><span>Правильных ответов</span><strong id="quizScore">0 / 0</strong></div>
+        <button id="nextQuestion" class="button secondary full" disabled>Следующий вопрос →</button>
+        <button id="resetQuiz" class="text-button">Сбросить результат</button>
+      </div>
+    </section>
+
+    <section class="view" id="view-dictionary">
+      <div class="section-heading"><div><p class="eyebrow">ТВОЯ КОЛЛЕКЦИЯ</p><h2>Мой словарь</h2></div></div>
+      <form id="addForm" class="add-form">
+        <label for="latinInput">Латинское слово</label>
+        <input id="latinInput" placeholder="Например: Cor, cordis n" required>
+        <label for="russianInput">Русский перевод</label>
+        <input id="russianInput" placeholder="Например: сердце" required>
+        <button class="button primary full" type="submit">＋ Добавить слово</button>
+      </form>
+      <div class="dictionary-tools">
+        <input id="searchInput" placeholder="⌕ Поиск по словарю…" aria-label="Поиск по словарю">
+        <button id="exportBtn" class="button secondary">Экспорт CSV</button>
+      </div>
+      <p id="dictionaryStatus" class="status" role="status"></p>
+      <div id="wordList" class="word-list"></div>
+    </section>
+
+    <section class="view" id="view-import">
+      <div class="section-heading"><div><p class="eyebrow">БЫСТРОЕ ДОБАВЛЕНИЕ</p><h2>Импорт слов</h2></div></div>
+      <p class="body-copy">Выбери TXT или CSV-файл либо вставь список вручную. Одна строка — одна пара слов.</p>
+      <div class="format-example">Cor, cordis n — сердце<br>Pulmo, onis m — лёгкое<br>Vena, ae f — вена</div>
+      <label class="file-picker">
+        <span>＋ Выбрать TXT / CSV файл</span>
+        <input type="file" id="fileInput" accept=".txt,.csv,text/plain,text/csv">
+      </label>
+      <label for="bulkInput" class="field-label">Или вставь список</label>
+      <textarea id="bulkInput" rows="8" placeholder="Cor, cordis n — сердце&#10;Pulmo, onis m — лёгкое"></textarea>
+      <button id="importBtn" class="button primary full">Импортировать слова</button>
+      <p id="importStatus" class="status" role="status"></p>
+      <p class="hint">Разделители: тире (— или –), точка с запятой или табуляция.</p>
+    </section>
+
+    <footer>
+      <span>MedLingua</span><span>Учись понемногу каждый день</span>
+    </footer>
+  </main>
+  <script src="app.js"></script>
+</body>
+</html>
